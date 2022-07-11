@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="68px" height="32px" viewBox="0 0 68 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>大屏</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="165.222325%" id="linearGradient-1">
+            <stop stop-color="#08204D" offset="0%"></stop>
+            <stop stop-color="#2571FF" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="4.82244481 2 63.7947452 2 66.9850746 7.46549476 66.9850746 23.7486258 64.0796633 30 5.38698829 30 2.02985075 24.2672502 2.02985075 7.31390676"></polygon>
+        <filter x="-4.6%" y="-10.7%" width="109.2%" height="121.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="3" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.8666667   0 0 0 0 0.84313726   0 0 0 0 0.6666667  0 0 0 0.75 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="大屏">
+            <g id="分组-9">
+                <g id="矩形">
+                    <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <path stroke="#5CB7FF" stroke-width="1" d="M5.12452206,2.5 L63.5076565,2.5 L66.4850746,7.60074711 L66.4850746,23.6381112 L63.760682,29.5 L5.67361031,29.5 L2.52985075,24.1316209 L2.52985075,7.43728811 L5.12452206,2.5 Z" stroke-linejoin="square"></path>
+                </g>
+                <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" points="0 21 0 25.8910947 4.33577881 32 11.1641791 32"></polyline>
+                <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(5.582090, 5.500000) scale(1, -1) translate(-5.582090, -5.500000) " points="0 0 0 4.89109469 4.33577881 11 11.1641791 11"></polyline>
+                <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(62.417910, 26.500000) scale(-1, 1) translate(-62.417910, -26.500000) " points="56.8358209 21 56.8358209 25.8910947 61.1715997 32 68 32"></polyline>
+                <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(62.417910, 5.500000) scale(-1, -1) translate(-62.417910, -5.500000) " points="56.8358209 0 56.8358209 4.89109469 61.1715997 11 68 11"></polyline>
+            </g>
+            <text font-family="PingFangSC-Regular, PingFang SC" font-size="13" font-weight="normal" fill="#FFFFFF">
+                <tspan x="21" y="21">大屏</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

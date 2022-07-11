@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="90px" height="32px" viewBox="0 0 90 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>客户端</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="165.222325%" id="linearGradient-1">
+            <stop stop-color="#08204D" offset="0%"></stop>
+            <stop stop-color="#2571FF" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="5.71299741 2 84.1218151 2 88.3636364 7.46549476 88.3636364 23.7486258 84.5006385 30 6.46360722 30 2 24.2672502 2 7.31390676"></polygon>
+        <filter x="-3.5%" y="-10.7%" width="106.9%" height="121.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="3" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.8666667   0 0 0 0 0.84313726   0 0 0 0 0.6666667  0 0 0 0.75 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="TADS首页" transform="translate(-1656.000000, -24.000000)">
+            <g id="客户端" transform="translate(1656.000000, 24.000000)">
+                <g id="分组-9">
+                    <g id="矩形">
+                        <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                        <path stroke="#5CB7FF" stroke-width="1" d="M83.8769508,2.5 L87.8636364,7.63675795 L87.8636364,23.6066039 L84.2218489,29.5 L6.70798752,29.5 L2.5,24.0955506 L2.5,7.4712839 L5.97359581,2.5 L83.8769508,2.5 Z" stroke-linejoin="square"></path>
+                    </g>
+                    <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" points="0.129720686 20.497547 0.129720686 25.583163 5.90413848 31.9350226 14.9982454 31.9350226"></polyline>
+                    <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(7.434262, 5.718738) scale(1, -1) translate(-7.434262, -5.718738) " points="0 0 0 5.08561601 5.77441779 11.4374756 14.8685247 11.4374756"></polyline>
+                    <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(82.436017, 26.216285) scale(-1, 1) translate(-82.436017, -26.216285) " points="75.0017546 20.497547 75.0017546 25.583163 80.7761724 31.9350226 89.8702793 31.9350226"></polyline>
+                    <polyline id="路径-13" stroke="#5CB7FF" stroke-linecap="round" stroke-linejoin="round" fill-rule="nonzero" transform="translate(82.565738, 5.718738) scale(-1, -1) translate(-82.565738, -5.718738) " points="75.1314753 0 75.1314753 5.08561601 80.9058931 11.4374756 90 11.4374756"></polyline>
+                </g>
+                <text font-family="PingFangSC-Regular, PingFang SC" font-size="13" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="25.5" y="21">客户端</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
