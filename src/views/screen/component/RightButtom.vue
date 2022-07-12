@@ -23,6 +23,7 @@ export default {
     this.$nextTick(() => {
       // this.init()
     })
+    
   },
   methods: {
     async Getservices() {
@@ -125,6 +126,7 @@ export default {
   },
   updated() {
     this.Getservices()
+    
   },
   destroyed() {
     // 组件销毁，关闭定时执行

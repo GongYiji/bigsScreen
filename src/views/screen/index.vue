@@ -723,6 +723,10 @@ export default {
   mounted: function () {
     this.drawEcharts()
     this.initCharts()
+    setInterval(() => {
+      this.initCharts()
+      
+    }, 5000);
   },
   updated: function () {
     this.drawEcharts()

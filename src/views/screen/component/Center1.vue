@@ -28,13 +28,6 @@ export default {
     async initCharts() {
       const res = await CenterClients()
       console.log(res)
-      //数据模拟 增加一条后端攻击数据 （模拟之后要删除）
-      //console.log('res.data[1].ips',res.data[1].ips);
-      // res.data[1].ips = ['192.168.20.230']
-      // res.data[2].ips = ['192.168.20.231']
-      // res.data[6].ips = ['192.168.20.236']
-
-
       let myChart = echarts.init(this.$refs.chart)
 
       let points = res.data
@@ -55,7 +48,7 @@ export default {
       let allArr = [...oneArr, ...erArr],
         dataArr = []
       // 点
-      allArr.forEach(el => {
+      allArr.forEach((el, ind) => {
         if (el.desc.type > 0) {
           el.symbolSize = 50
           el.symbol =
@@ -161,7 +154,7 @@ export default {
         emptyCenterRadius: 0
       })
       erArr = CalutePointToSplitCircle(erArr, {
-        stratAngle: 0,
+        stratAngle: -90,
         raduis: 40,
         nodeRadius: 5,
         emptyCenterRadius: 10
@@ -180,9 +173,47 @@ export default {
       /////////////////////////////////////////
       // lirj
       console.log('节点用数据', allArr)
-    
+      // let newAdd = {
+      //   desc: {
+      //     type: 2
+      //   },
+      //   itemStyle: {
+      //     color: '#ff0000'
+      //   },
+      //   label: {
+      //     normal: {
+      //       color: '#ff0000',
+      //       distance: 10,
+      //       position: 'bottom',
+      //       show: true
+      //     }
+      //   },
+      //   // lineData:[
+      //   //     ['21.70', '27.30'],
+      //   //     ['6.20', '7.80'],
+      //   // ],
+      //   name: 'test',
+      //   symbol:
+      //     'path://M544 552.325V800a32 32 0 0 1-32 32 31.375 31.375 0 0 1-32-32V552.325L256 423.037a32 32 0 0 1-11.525-43.512A31.363 31.363 0 0 1 288 368l224 128 222.075-128a31.363 31.363 0 0 1 43.525 11.525 31.988 31.988 0 0 1-11.525 43.513L544 551.038z m0 0,M64 256v512l448 256 448-256V256L512 0z m832 480L512 960 128 736V288L512 64l384 224z m0 0',
+      //   symbolSize: 50,
+      //   value: ['18.40', '55.00'] // ['18.40', '55.00'] 这个属性的意思是： ips的中心坐标
+      // }
 
-      
+      // allArr.push(newAdd)
+
+      // let newLine = [
+      //   {
+      //     coord: ['18.40', '55.00'], //['18.40', '55.00'] 这个属性的意思是 ips那根箭头的末端的坐标 +6 +17
+      //     effect: { color: '#ed0a0a' },
+      //     lineStyle: { color: '#b83030', curveness: 0 } //箭头线的颜色 是否弯曲
+      //   },
+      //   {
+      //     coord: ['12.40', '38.00'] //['12.40', '38.00'] 这个意思是 ips那根箭头的起始段的坐标 -6 -17
+      //   }
+      // ]
+      // dataArr.push(newLine)
+      ////////////////////////////////////////////
+
       // 生成虚线 饼图数据
       function generateData(totalNum, bigvalue, smallvalue, color) {
         let dataArr = []
@@ -399,23 +430,54 @@ export default {
       }
 
       setInterval(draw, 200)
-      
+      //获取坐标方位
+      function getCoordinatePosition(calute_xy) {
+        let x = calute_xy[0] - 0
+        let y = calute_xy[1] - 0
+        let position = -1
+        if (x < 0 && y < 0) {
+          console.log('这是下左方位')
+          position = 0
+        } else if (x > 0 && y > 0) {
+          console.log('这是上右方位')
+          position = 1
+        } else if (x > 0 && y < 0) {
+          console.log('这是下右方位')
+          position = 2
+        } else if (x < 0 && y > 0) {
+          console.log('这是上左方位')
+          position = 3
+        } else if (x == 0 && y > 0) {
+          console.log('这是正上方位')
+          position = 4
+        } else if (x == 0 && y < 0) {
+          console.log('这是正下方位')
+          position = 5
+        } else if (x < 0 && y == 0) {
+          console.log('这是正左方位')
+          position = 6
+        } else if (x > 0 && y == 0) {
+          console.log('这是正右方位')
+          position = 7
+        }
+        return position
+      }
       //生成攻击节点信息
       function generateAttackData() {
-        allArr.forEach(e => {
-          //console.log('e', e)
+        allArr.forEach((e, index) => {
           if (!e.ips) {
             return
           }
-         // console.log('存在攻击数据：', e)
-          let spacing = 10
+          console.log('存在攻击数据：', e)
+          let spacing = 7
           let xy = e.value
           let coordinate = xy
           let ips = e.ips
-          //let position = getCoordinatePosition(xy)
-          ips.forEach(ip => {
-            let x = e.value[0] - 0
-            let y = e.value[1] - 0
+          let name = e.name
+          let position = getCoordinatePosition(xy)
+          ips.forEach((ip, index) => {
+            let x = coordinate[0] - 0
+            let y = coordinate[1] - 0
             if (x < 0) {
               x = x - spacing
             } else {
@@ -426,6 +488,7 @@ export default {
             } else {
               y = y + spacing
             }
+            console.log(x, ':', y)
             coordinate = [x, y]
             let newAdd = {
               desc: {
@@ -446,14 +509,12 @@ export default {
               //     ['21.70', '27.30'],
               //     ['6.20', '7.80'],
               // ],
-              name: ip,
+              name: '(' + name + ')' + ip,
               symbol:
                 'path://M544 552.325V800a32 32 0 0 1-32 32 31.375 31.375 0 0 1-32-32V552.325L256 423.037a32 32 0 0 1-11.525-43.512A31.363 31.363 0 0 1 288 368l224 128 222.075-128a31.363 31.363 0 0 1 43.525 11.525 31.988 31.988 0 0 1-11.525 43.513L544 551.038z m0 0,M64 256v512l448 256 448-256V256L512 0z m832 480L512 960 128 736V288L512 64l384 224z m0 0',
-              symbolSize: 45,
+              symbolSize: 20,
               value: coordinate // ['18.40', '55.00'] 这个属性的意思是： ips的中心坐标
             }
-            
-            
 
             allArr.push(newAdd)
 
@@ -478,6 +539,9 @@ export default {
   // 生命周期 - 挂载完成（可以访问 DOM 元素）
   mounted() {
     this.initCharts()
+    setInterval(() => {
+      this.initCharts()
+    }, 300000);
   },
   // 生命周期 - 创建之前
   beforeCreate() {},
@@ -500,6 +564,6 @@ export default {
   // width: 600px;
   // height: 700px;
   width: 85%;
-  height: 85%;
+  height: 95%;
 }
 </style>
