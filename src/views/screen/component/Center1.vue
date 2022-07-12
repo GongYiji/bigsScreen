@@ -154,9 +154,11 @@ export default {
         emptyCenterRadius: 0
       })
       erArr = CalutePointToSplitCircle(erArr, {
-        stratAngle: -90,
-        raduis: 40,
-        nodeRadius: 5,
+        // stratAngle: -90,
+        stratAngle: -50,
+
+        raduis: 30,
+        nodeRadius: 3,
         emptyCenterRadius: 10
       })
 
@@ -172,7 +174,7 @@ export default {
 
       /////////////////////////////////////////
       // lirj
-      console.log('节点用数据', allArr)
+      // console.log('节点用数据', allArr)
       // let newAdd = {
       //   desc: {
       //     type: 2
@@ -430,37 +432,46 @@ export default {
       }
 
       setInterval(draw, 200)
-      //获取坐标方位
+      //获取坐标方位与设置对应角度
       function getCoordinatePosition(calute_xy) {
         let x = calute_xy[0] - 0
         let y = calute_xy[1] - 0
         let position = -1
+        let stratAngle = 0
         if (x < 0 && y < 0) {
           console.log('这是下左方位')
           position = 0
+          stratAngle = 180
         } else if (x > 0 && y > 0) {
           console.log('这是上右方位')
           position = 1
+          stratAngle = 0
         } else if (x > 0 && y < 0) {
           console.log('这是下右方位')
           position = 2
+          stratAngle = -45
         } else if (x < 0 && y > 0) {
           console.log('这是上左方位')
           position = 3
+          stratAngle = 90
         } else if (x == 0 && y > 0) {
           console.log('这是正上方位')
           position = 4
+          stratAngle = 90
         } else if (x == 0 && y < 0) {
           console.log('这是正下方位')
           position = 5
+          stratAngle = -90
         } else if (x < 0 && y == 0) {
           console.log('这是正左方位')
           position = 6
+          stratAngle = 180
         } else if (x > 0 && y == 0) {
           console.log('这是正右方位')
           position = 7
+          stratAngle = 0
         }
-        return position
+        return { position: position, stratAngle: stratAngle }
       }
       //生成攻击节点信息
       function generateAttackData() {
@@ -471,65 +482,70 @@ export default {
           console.log('存在攻击数据：', e)
           let spacing = 7
           let xy = e.value
-          let coordinate = xy
-          let ips = e.ips
-          let name = e.name
           let position = getCoordinatePosition(xy)
-          ips.forEach((ip, index) => {
-            let x = coordinate[0] - 0
-            let y = coordinate[1] - 0
-            if (x < 0) {
-              x = x - spacing
-            } else {
-              x = x + spacing
-            }
-            if (y < 0) {
-              y = y - spacing
-            } else {
-              y = y + spacing
-            }
-            console.log(x, ':', y)
-            coordinate = [x, y]
-            let newAdd = {
-              desc: {
-                type: 2
-              },
-              itemStyle: {
-                color: '#ff0000'
-              },
-              label: {
-                normal: {
-                  color: '#ff0000',
-                  distance: 10,
-                  position: 'bottom',
-                  show: true
-                }
-              },
-              // lineData:[
-              //     ['21.70', '27.30'],
-              //     ['6.20', '7.80'],
-              // ],
-              name: '(' + name + ')' + ip,
-              symbol:
-                'path://M544 552.325V800a32 32 0 0 1-32 32 31.375 31.375 0 0 1-32-32V552.325L256 423.037a32 32 0 0 1-11.525-43.512A31.363 31.363 0 0 1 288 368l224 128 222.075-128a31.363 31.363 0 0 1 43.525 11.525 31.988 31.988 0 0 1-11.525 43.513L544 551.038z m0 0,M64 256v512l448 256 448-256V256L512 0z m832 480L512 960 128 736V288L512 64l384 224z m0 0',
-              symbolSize: 20,
-              value: coordinate // ['18.40', '55.00'] 这个属性的意思是： ips的中心坐标
-            }
-
-            allArr.push(newAdd)
-
-            let newLine = [
-              {
-                coord: coordinate, //['18.40', '55.00'] 这个属性的意思是 ips那根箭头的末端的坐标 +6 +17
-                effect: { color: '#ed0a0a' },
-                lineStyle: { color: '#b83030', curveness: 0 } //箭头线的颜色 是否弯曲
-              },
-              {
-                coord: xy //['12.40', '38.00'] 这个意思是 ips那根箭头的起始段的坐标 -6 -17
-              }
-            ]
-            dataArr.push(newLine)
+          attackCalutePointToSplitCircle(e, {
+            stratAngle: position.stratAngle + 20,
+            raduis: 12,
+            nodeRadius: 5,
+            emptyCenterRadius: 10
           })
+        })
+      }
+      //生成节点攻击ip布局数据
+      function attackCalutePointToSplitCircle(centralData, option) {
+        let ips = centralData.ips
+        const { length: arLen } = ips
+        let single_angle = (100 / arLen).toFixed(2)
+        let UtilCalute = {
+          calute_x: (ang, radius) => {
+            return (Math.cos((ang * Math.PI) / 180).toFixed(2) * radius).toFixed(2)
+          },
+          calute_y: (ang, radius) => {
+            return (Math.sin((ang * Math.PI) / 180).toFixed(2) * radius).toFixed(2)
+          }
+        }
+        let name = centralData.name
+        let centralXY = centralData.value
+        // 正东方向开始 逆时针方向
+        ips.forEach((ip, index) => {
+          let ang = option.stratAngle + single_angle * index
+          // 各节点中心点
+          const x = UtilCalute.calute_x(ang, option.raduis) - 0 + (centralXY[0] - 0)
+          const y = UtilCalute.calute_y(ang, option.raduis) - 0 + (centralXY[1] - 0)
+          let coordinate = [x, y] // 节点中心点
+          let newAdd = {
+            desc: {
+              type: 5
+            },
+            itemStyle: {
+              color: '#ff0000'
+            },
+            label: {
+              normal: {
+                color: '#ff0000',
+                distance: 10,
+                position: 'bottom',
+                show: true
+              }
+            },
+            name: '(' + name + ')' + ip,
+            symbol:
+              'path://M544 552.325V800a32 32 0 0 1-32 32 31.375 31.375 0 0 1-32-32V552.325L256 423.037a32 32 0 0 1-11.525-43.512A31.363 31.363 0 0 1 288 368l224 128 222.075-128a31.363 31.363 0 0 1 43.525 11.525 31.988 31.988 0 0 1-11.525 43.513L544 551.038z m0 0,M64 256v512l448 256 448-256V256L512 0z m832 480L512 960 128 736V288L512 64l384 224z m0 0',
+            symbolSize: 20,
+            value: coordinate // ['18.40', '55.00'] 这个属性的意思是： ips的中心坐标
+          }
+          allArr.push(newAdd)
+          let newLine = [
+            {
+              coord: coordinate, //['18.40', '55.00'] 这个属性的意思是 ips那根箭头的末端的坐标 +6 +17
+              effect: { color: '#ed0a0a' },
+              lineStyle: { color: '#b83030', curveness: 0 } //箭头线的颜色 是否弯曲
+            },
+            {
+              coord: centralData.value //['12.40', '38.00'] 这个意思是 ips那根箭头的起始段的坐标 -6 -17
+            }
+          ]
+          dataArr.push(newLine)
         })
       }
     }
@@ -539,9 +555,6 @@ export default {
   // 生命周期 - 挂载完成（可以访问 DOM 元素）
   mounted() {
     this.initCharts()
-    setInterval(() => {
-      this.initCharts()
-    }, 300000);
   },
   // 生命周期 - 创建之前
   beforeCreate() {},
@@ -564,6 +577,6 @@ export default {
   // width: 600px;
   // height: 700px;
   width: 85%;
-  height: 95%;
+  height: 85%;
 }
 </style>
