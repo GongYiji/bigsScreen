@@ -723,10 +723,6 @@ export default {
   mounted: function () {
     this.drawEcharts()
     this.initCharts()
-    setInterval(() => {
-      this.initCharts()
-      
-    }, 5000);
   },
   updated: function () {
     this.drawEcharts()
@@ -917,8 +913,8 @@ export default {
   .CenterEchart {
     position: absolute;
     width: 90%;
-    height: 75vh;
-    top: 12vh;
+    height: 84vh;
+    top: 5vh;
     left: 7vh;
   }
   .center-title {

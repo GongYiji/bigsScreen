@@ -384,9 +384,7 @@ export default {
   },
   mounted() {
     this.initCharts()
-    setInterval(() => {
-      this.initCharts()
-    }, 300000);
+    
   },
   updated() {
     this.initCharts()
